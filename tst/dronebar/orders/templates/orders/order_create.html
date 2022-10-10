@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+
+  <h1>Order Create</h1>
+
+  <form method="get">
+
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button type="submit" class="btn btn-success">Get Items </button>
+    <hr>
+  </form>
+
+  {% if error_msg %}
+  <h1 style='color:red;'>{{error_msg}}</h1>
+  {% else %}
+  <form method="POST">
+    {% csrf_token %}
+
+    <table id="order_rows">
+
+      {% if error_msg <= 0 %}
+        <h3>{{error_msg}}</h3>
+
+      {% else %}
+        <tr id='order_rows'>
+          {% for mi in menu_items %}
+            <td  style='border-style:solid; padding:10px;' id="order_item">
+              <a href="#" onClick="CreateOrderRow({{mi.id}},('{{mi.name}}'),('{{mi.description}}'),{{mi.price}},{{mi.weight}},1);">
+                {{ mi.name }}
+              </a>
+            </td>
+          {% endfor %}
+        </tr>
+
+      {% endif %}
+    </table>
+
+
+      <span>
+        <br><br>
+      <table class="table" id="order-table">
+          <th>Item Id</th>
+          <th>Item Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Weight</th>
+          <th>Quantity</th>
+      </table>
+    </span>
+
+
+  </form>
+
+  {% endif %}
+
+
+</div>
+
+{% endblock %}

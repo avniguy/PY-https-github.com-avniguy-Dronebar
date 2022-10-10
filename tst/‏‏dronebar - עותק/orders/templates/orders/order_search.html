@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+  
+{% block content %}
+
+
+<div class="container">
+
+  <h1>Order Search</h1>
+
+
+    <form method="get">
+
+      {% csrf_token %}
+      {{ form|crispy }}
+
+      <div class="form-group">
+        {{my_filter.form}} <br><br>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <hr>
+      </div>
+
+      <div class="form-group">
+      <table class="table">
+        <thead>
+          <th>Order Number</th>
+          <th>Status</th>
+          <th>Order Date</th>
+          <!-- <th class='right_handed'> <a href="{% url 'drones:drone_create' %}">Create New</a></th> -->
+        </thead>
+
+        <tbody>
+        {% for o in orders %}
+          <tr class="default">
+            <td>{{ o.id }}</td>
+            <td>{{ o.status }}</td>
+            <td>{{ o.order_date }}</td>
+
+            <td>
+              <a href="order/{{o.id}}/detail"><button type="button" class="btn btn-info">Details</button></a>
+              <a href="{% url 'orders:order_update' o.id %}"><button type="button" class="btn btn-primary">Update</button></a>
+              <a href="{% url 'orders:order_delete' o.id %}"><button type="button" class="btn btn-warning">Delete</button></a>
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+
+      </table>
+    </div>
+
+    </form>
+
+
+  <!-- <span>
+        <label for="customer">Customer:</label>
+        <input type="text" class="form-control" id="customer" value="">
+
+        <label for="status">Status:</label>
+        <input type="text" class="form-control" id="status" value="">
+
+        <label for="shop">Shop:</label>
+        <input type="text" class="form-control" id="shop" value="">
+
+        <label for="date">Order Date:</label>
+        <input type="text" class="form-control" id="date" value="">
+  </span> -->
+
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container">
+  <a href="{% url 'orders:order_list' %}" style="align:right; float: right;">Order List</a>
+
+  <h1>Order Detail</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+
+    <div class="form-group">
+        <label for="oid">Order Id:</label>
+        <input type="text" class="form-control" id="oid" value='{{ order.id }}' disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="customer">Description:</label>
+        <input type="text" class="form-control" id="customer" value="{{ order.customer }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" class="form-control" id="status" value="{{ order.status }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="shop">Shop:</label>
+        <input type="text" class="form-control" id="shop" value="{{ order.shop }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="total">Total:</label>
+        <input type="text" class="form-control" id="total" value="{{ order.total_price }} NIS" disabled>
+    </div>
+
+    <div class="form-group">
+
+        <label>Items:</label>
+
+          <table class="table" style="border-style: solid; border-width:thin; border-color:blue; color:blue;" >
+            <tr>
+              <th>Name</th>
+              <th>Weight</th>
+              <th>Price</th>
+            </tr>
+          {% for i in order.items.all %}
+              <tr>
+                <td>{{i.name}}</td>
+                <td>{{i.weight}}</td>
+                <td>{{i.price}}</td>
+              </tr>
+
+          {% endfor %}
+        </table>
+    </div>
+
+
+
+    <a href="{% url 'orders:order_update' order.id %}"><button type="button" class="btn btn-primary">Update</button></a>
+    <a href="{% url 'orders:order_delete' order.id %}"><button type="button" class="btn btn-warning">Delete</button></a>
+
+
+  </form>
+
+</div>
+
+{% endblock %}

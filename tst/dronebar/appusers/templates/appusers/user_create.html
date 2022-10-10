@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+<!-- <html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>USER CREATE</title>
+  </head>
+  <body> -->
+
+  {% block content %}
+
+    <h1>USER CREATE !!</h1>
+    <form class="" action="" method="POST">
+      {% csrf_token %}
+      <p>
+      <!-- {{form.username.label}}
+      {{form.username}} -->
+        <input class="form-control" type="text" name="username" placeholder="username" value="">
+      </p>
+      <p>
+      <!-- {{form.password1.label}}
+      {{form.password1}} -->
+      <input class="form-control" type="text" name="password1" placeholder="password1" value="">
+      </p>
+      <p>
+      <!-- {{form.password2.label}}
+      {{form.password2}} -->
+      <input class="form-control" type="text" name="password2" placeholder="password2" value="">
+      </p>
+      <p>
+      <!-- {{form.email.label}}
+      {{form.email}} -->
+      <input class="form-control" type="text" name="email" placeholder="email" value="">
+      </p>
+      <p>
+      <!-- {{form.first_name.label}}
+      {{form.first_name}} -->
+      <input class="form-control" type="text" name="first_name" placeholder="first_name" value="">
+      </p>
+      <p>
+      <!-- {{form.last_name.label}}
+      {{form.last_name}} -->
+      <input class="form-control" type="text" name="last_name" placeholder="last_name" value="">
+      </p>
+      <p>
+      <input class="btn btn-primary" type="submit" value="Create User">
+      </p>
+        <!-- {{form.errors}} -->
+        {% for message in messages %}
+          <span class="alert-danger">{{message}}</span>
+        {% endfor %}
+        <div class="alert-danger">{{form.errors}}</div>
+    </form>
+
+    <h1>User Authenticated : {{ request.user.is_authenticated }}</h1>
+
+
+{% endblock %}
+
+  <!-- </body>
+</html> -->
