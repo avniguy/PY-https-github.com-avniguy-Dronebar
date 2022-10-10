@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
   <br><br>
-
   <h1>Shop Detail</h1>
-
 
   <form method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
-
 
     <div class="form-group">
         <label for="name">Name:</label>
@@ -34,10 +29,6 @@
         <input type="text" class="form-control" id="service_site" value="{{ shop.service_site.name }}" disabled> <a href="{% url 'shops:service_site_create' %}">New</a>
     </div>
 
-    <!-- <div class="form-group">
-        <label for="drone_type">Drone Type:</label>
-        <input type="text" class="form-control" id="drone_type" value="{{ shop.drone_type.name }}" disabled> <a href="{% url 'shops:service_site_create' %}">New</a>
-    </div> -->
 
     <div class="form-group">
         <label for="menu">Menu:</label>
@@ -69,8 +60,6 @@
 
   </form>
 
-
 </div>
-
 
 {% endblock %}

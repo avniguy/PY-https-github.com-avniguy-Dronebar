@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
 {% block content %}
 
 <div class="container">
-
+<br><br>
   <h1>Drone Type Delete</h1>
 
-
   <form class="drone_form" method="POST">
-
     {% csrf_token %}
-    {{ form|crispy }}
 
     <h1>Are you sure you wanna delete this drone type? {{object.name}}</h1>
 

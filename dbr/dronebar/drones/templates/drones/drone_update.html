@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-
 {% block content %}
 
 <div class="container">
-
+<br><br>
   <a href="{% url 'drones:drone_list' %}" style="align:right; float: right;">Drone List</a>
   <h1>Drone Update</h1>
 
   <form method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
 
+    <div class="form-group">
+        <label>Name</label>
+        {{ form.name }}
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        {{ form.description }}
+    </div>
+
+    <div class="form-group">
+        <label>Drone Type</label>
+        {{ form.drone_type }}
+    </div>
+
+    <div class="form-group">
+        <label>Shop</label>
+        {{ form.shop }}
+    </div>
 
     <input class="btn btn-primary" type="submit" value="Save"/>
     <a href="{% url 'drones:drone_delete' drone.id %}"><button type="button" class="btn btn-warning">Delete</button></a>

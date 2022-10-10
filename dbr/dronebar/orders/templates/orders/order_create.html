@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
 {% block content %}
 
 <div class="container">
-
+<br><br>
   <h1>Order Create</h1>
 
   <form method="get">
-
     {% csrf_token %}
-    {{ form|crispy }}
 
     <button type="submit" class="btn btn-success">Get Items </button>
     <hr>

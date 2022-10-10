@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% load static %}
-
 {% block content %}
 
 <div class="container">
-
+<br><br>
   <h1>Shop List</h1>
 
 <table class="table">
   <thead>
     <th>Shop</th><th>Description</th><th class='right_handed'> <a href="{% url 'shops:shop_create' %}">Create New</a></th>
-    <!-- <th>Address</th>
-    <th>Active</th><th>Service Site</th><th>Menu</th> -->
   </thead>
 
   <tbody>
@@ -33,8 +29,6 @@
 
 </table>
 
-
 </div>
-
 
 {% endblock %}

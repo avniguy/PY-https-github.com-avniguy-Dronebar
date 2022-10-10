@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
 {% block content %}
 
 <div class="container">
-
+<br><br>
   <h1>Menu Item Create</h1>
 
-
   <form class="menu_item_form" method="POST">
-
     {% csrf_token %}
-    {{ form|crispy }}
 
     <input class="btn btn-primary" type="submit" value="Save"/>
   </form>

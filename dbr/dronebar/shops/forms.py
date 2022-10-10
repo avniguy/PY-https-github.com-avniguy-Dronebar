@@ -14,18 +14,15 @@ class ShopModelForm(forms.ModelForm):
                   'menu',
         ]
 
-
 class ServiceSiteModelForm(forms.ModelForm):
     class Meta:
         model = ServiceSite
         fields = '__all__'
 
-
 class MenuModelForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = "__all__"
-
 
 class MenuItemModelForm(forms.ModelForm):
     class Meta:

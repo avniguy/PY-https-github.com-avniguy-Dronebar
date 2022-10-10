@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
@@ -11,7 +10,6 @@
 
   <form class="live_orders" name="live_orders" method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
 
     <div class="form-group">
         <label for="shops">Shop:</label>
