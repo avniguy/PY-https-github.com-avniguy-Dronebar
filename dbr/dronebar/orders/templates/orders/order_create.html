@@ -9,6 +9,12 @@
   <form method="get">
     {% csrf_token %}
 
+    <select id="shop" name="shop">
+      {% for s in form.shops %}
+        <option value={{s.id}}>{{s.name}}</option>
+      {% endfor %}
+    </select>
+
     <button type="submit" class="btn btn-success">Get Items </button>
     <hr>
   </form>
@@ -19,7 +25,7 @@
   {% else %}
   <form method="POST" id="order_form">
     {% csrf_token %}
-
+   
     <div id="extra_returned_data">
       <input type="hidden" id="total_order_data" name="total_order_data" value="">
       <input type="hidden" id="shop_id" name="shop_id" value="">

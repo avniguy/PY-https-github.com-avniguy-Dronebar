@@ -12,6 +12,10 @@
     <th>Order Number</th>
     <th>Status</th>
     <th>Order Date</th>
+    <th>Customer</th>
+    <th>Geolocation</th>
+    <th>Action</th>
+
     <!-- <th class='right_handed'> <a href="{% url 'drones:drone_create' %}">Create New</a></th> -->
   </thead>
 
@@ -21,6 +25,8 @@
       <td>{{ order.id }}</td>
       <td>{{ order.status }}</td>
       <td>{{ order.order_date }}</td>
+      <td>{{order.customer}}</td>
+      <td>{{order.lat_location}} , {{order.long_location}}</td>
 
       <td>
         <a href="order/{{order.id}}/detail"><button type="button" class="btn btn-info">Details</button></a>

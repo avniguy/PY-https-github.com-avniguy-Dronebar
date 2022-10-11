@@ -194,6 +194,8 @@ $(document).ready(function(){
   $("#order_form").submit(function(event) {
     var jsonData ;
     var order_rows = [];
+    var shop_id = $('#shop').find(":selected").val();
+    // alert("shop_id="+shop_id);
     $('#order-table > tbody > .order_row').each(function(index, tr) {
         // create new input hidden for each row - will be returned to the view
         item_id = parseInt($(this).find("#item_id").text());
@@ -207,11 +209,8 @@ $(document).ready(function(){
     jsonData = {'order_price':parseInt($("#total_order_price").text()),'order_weight':parseInt($("#total_order_weight").text()),'geolocation':$("#location").val(), "order_rows":order_rows};
 
     if(order_rows.length > 0)
-      // alert("yes");
       $("#total_order_data").val(JSON.stringify(jsonData));
-      // alert($("#id_shop").find(":selected").val());
-      $("#shop_id").val($("#id_shop").find(":selected").val())
-      // alert(JSON.stringify(jsonData));
+      $("#shop_id").val(shop_id); //($("#id_shop").find(":selected").val())
   });
   // life_orders.html script
   $("table").on('click',"#next_step",function(){

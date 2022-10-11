@@ -43,7 +43,7 @@ def LiveOrdersView(request):
     shop_id=0
 
     if request.session.get('shop_id',0) > 0:
-        print("request.session['shop_id']" + str(request.session.get('shop_id',0)))
+        # print("request.session['shop_id']" + str(request.session.get('shop_id',0)))
         shop_id=request.session.get('shop_id',0)
 
     drones = Drone.objects.filter(shop_id=shop_id)
@@ -93,8 +93,12 @@ def OrderCreateView(request):
     model=Order
 
     if request.method =='GET':
+        # print("Request is GET")
+        # print(form.data.get('shop'))
         if form.is_valid():
+            # print("form VALID")
             shop_id = form.cleaned_data.get('shop')
+            # print("shop_id=" + shop_id)
             shop_details = Shop.objects.get(id=shop_id)
 
             drn_ = Drone.objects.filter(shop_id = shop_details.id).first()
@@ -109,23 +113,29 @@ def OrderCreateView(request):
                 context = {'form':form}
                 context['error_msg'] = ""
                 context['shop_id'] = shop_id
+                print("GET shop id=" + context['shop_id'])
                 context['max_payload'] = max_payload
                 menu_details = Menu.objects.get(id = shop_details.menu.id)
                 items = menu_details.items.all()
                 context['menu_items'] = items
+        else:
+            print("form NOT VALID")
 
     if request.method == "POST":
+        # print("POST shop_id=" + context['shop_id'])
         order_data = request.POST.get('total_order_data','') # order rows
         shop_id = request.POST.get('shop_id','') #order_id
+        print("POST.shop_id="+shop_id)
         geolocation = request.POST.get('location','') #geolocation
         g = geolocation.split(",")
 
-        # print("Geolocation="+geolocation)
+        # print(" shop_id - in POST = " + shop_id)
+        # print("POST.shop_id="+shop_id)
 
         j_order_rows = []
         j_order_rows = json.loads(order_data)
 
-        s = Shop.objects.get(id=shop_id)
+        s = Shop.objects.get(id = int(shop_id))
         o = Order(customer=1,shop=s,status='New',order_date=datetime.now(),total_price=j_order_rows["order_price"],total_weight=j_order_rows["order_weight"],lat_location=float(g[0]),long_location=float(g[1]))
         o.save()
 
@@ -136,6 +146,7 @@ def OrderCreateView(request):
 
         object_list = Order.objects.all()
         context = {'object_list':object_list}
+
         return render(request,'orders/order_list.html',context)
     return render(request,'orders/order_create.html',context)
 

@@ -29,7 +29,6 @@
 
   <form class="live_orders" method="POST">
     {% csrf_token %}
-    {{ form|crispy }}
 
     <input type="hidden" id='order_id_proceed' name='order_id_proceed' value=''>
     <input type="hidden" id='order_drone' name='order_drone' value=''>
@@ -40,6 +39,7 @@
           <th>Order Id</th>
           <th>Order Date</th>
           <th>Customer Id</th>
+          <th>Geolocation</th>
           <th>Status</th>
           <th>Drone</th>
           <th>Next Step</th>
@@ -51,6 +51,7 @@
               <td id="order_id">{{o.id}}</td>
               <td>{{o.order_date}}</td>
               <td>{{o.customer}}</td>
+              <td>{{o.lat_location}} , {{o.long_location}}</td>
                   {% if o.status == 'Processing' %}
                     <td class='processing'>
                   {% elif o.status == 'New' %}
