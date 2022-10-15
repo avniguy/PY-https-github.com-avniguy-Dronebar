@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "stripped_base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <h1>Login</h1>
+
+  <form method='POST' action = "">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" value=''>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" value="">
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Save"/> &nbsp <a href="{% url 'accounts:register' %}">Register</a>
+  </form>
+
+  {% for message in messages %}
+    <p id="message">{{message}}</p>
+  {% endfor %}
+
+</div>
+
+
+{% endblock %}

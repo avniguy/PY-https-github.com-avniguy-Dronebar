@@ -19,13 +19,16 @@ from . import views
 from shops import urls
 from drones import urls
 from orders import urls
+from accounts import urls
+from accounts.views import LoginView
 
 
 urlpatterns = [
-    # path('admin/clearcache/', include('clearcache.urls')),
+    path("accounts/login", LoginView, name="login"),
     path("admin/", admin.site.urls),
     path("index/", views.index,name="index"),
     path("", views.index,name="homepage"),
+    path("accounts/",include('accounts.urls')),
     path("shops/",include('shops.urls')),
     path("drones/",include('drones.urls')),
     path("orders/",include('orders.urls')),

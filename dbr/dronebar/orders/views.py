@@ -11,9 +11,46 @@ import json
 from .forms import ShopOptionForm,OrderRowFormSet, OrderModelForm
 from shops.models import Menu, MenuItem, Shop, ServiceSite  # START THIS IS A TEST FOR CREATING A NEW ORDER JUST LIKE IN THE APP
 from drones.models import DroneType,Drone
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
+@login_required(login_url='login')
+def DroneOrdersView(request):
+    context = {}
+    model=Order
+
+    drones = Drone.objects.all()
+    context["drones"]=drones
+
+    user = request.user
+    context["user"]=user
+
+    if request.method=='GET':
+        droneid=request.GET.get('drones','')
+        if droneid == '0':
+            orders = Order.objects.filter(drone_id__isnull=False)
+            context["orders"]=orders
+        elif droneid.isnumeric() and int(droneid) > 0:
+            orders = Order.objects.filter(drone_id=droneid)
+            context["orders"]=orders
+    return render(request,'orders/drone_orders.html',context)
+
+@login_required(login_url='login')
+def MyOrdersView(request):
+    context = {}
+    model=Order
+
+    user = request.user
+    context["user"]=user
+
+    orders = Order.objects.filter(customer=user.id)
+    context["orders"]=orders
+
+    return render(request,'orders/my_orders.html',context)
+
+@login_required(login_url='login')
 def OrderSearchView(request):
     template_name = 'orders/order_search.html'
     context = {'page_name':"order_search,html"}
@@ -38,12 +75,12 @@ def OrderSearchView(request):
 
     return render(request,'orders/order_search.html',context)
 
+@login_required(login_url='login')
 def LiveOrdersView(request):
     template_name = 'orders/live_orders.html'
     shop_id=0
 
     if request.session.get('shop_id',0) > 0:
-        # print("request.session['shop_id']" + str(request.session.get('shop_id',0)))
         shop_id=request.session.get('shop_id',0)
 
     drones = Drone.objects.filter(shop_id=shop_id)
@@ -85,6 +122,7 @@ def LiveOrdersView(request):
 
     return render(request,'orders/live_orders.html',context)
 
+@login_required(login_url='login')
 def OrderCreateView(request):
     template_name = 'orders/order_create.html'
     form = ShopOptionForm(request.GET)
@@ -93,17 +131,12 @@ def OrderCreateView(request):
     model=Order
 
     if request.method =='GET':
-        # print("Request is GET")
-        # print(form.data.get('shop'))
         if form.is_valid():
-            # print("form VALID")
             shop_id = form.cleaned_data.get('shop')
-            # print("shop_id=" + shop_id)
             shop_details = Shop.objects.get(id=shop_id)
 
             drn_ = Drone.objects.filter(shop_id = shop_details.id).first()
             drone_type = DroneType.objects.get(id=drn_.drone_type.id)
-            # drone_type = DroneType.objects.get(id=shop_details.drone_type.id)
             max_payload = drone_type.payload_weight
 
             if shop_details.menu is None:
@@ -122,15 +155,11 @@ def OrderCreateView(request):
             print("form NOT VALID")
 
     if request.method == "POST":
-        # print("POST shop_id=" + context['shop_id'])
         order_data = request.POST.get('total_order_data','') # order rows
         shop_id = request.POST.get('shop_id','') #order_id
         print("POST.shop_id="+shop_id)
         geolocation = request.POST.get('location','') #geolocation
         g = geolocation.split(",")
-
-        # print(" shop_id - in POST = " + shop_id)
-        # print("POST.shop_id="+shop_id)
 
         j_order_rows = []
         j_order_rows = json.loads(order_data)
@@ -150,11 +179,13 @@ def OrderCreateView(request):
         return render(request,'orders/order_list.html',context)
     return render(request,'orders/order_create.html',context)
 
+@method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):
     model = Order
     context_object_name = 'order_list'
     template_name = 'orders/order_list.html'
 
+@method_decorator(login_required, name='dispatch')
 class OrderDetailView(DetailView):
     template_name = 'orders/order_detail.html'
     model=Order
@@ -173,6 +204,7 @@ class OrderDetailView(DetailView):
         context['rows'] = od
         return context
 
+@method_decorator(login_required, name='dispatch')
 class OrderUpdateView(UpdateView):
     template_name = 'orders/order_update.html'
     form_class = OrderModelForm
@@ -187,6 +219,7 @@ class OrderUpdateView(UpdateView):
         id_ = self.kwargs.get("id")
         return reverse("orders:order_detail",kwargs={"id":id_})
 
+@method_decorator(login_required, name='dispatch')
 class OrderDeleteView(DeleteView):
     template_name = 'orders/order_delete.html'
     model=Order
