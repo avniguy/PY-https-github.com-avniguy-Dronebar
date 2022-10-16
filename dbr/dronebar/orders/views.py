@@ -146,7 +146,7 @@ def OrderCreateView(request):
                 context = {'form':form}
                 context['error_msg'] = ""
                 context['shop_id'] = shop_id
-                print("GET shop id=" + context['shop_id'])
+                # print("GET shop id=" + context['shop_id'])
                 context['max_payload'] = max_payload
                 menu_details = Menu.objects.get(id = shop_details.menu.id)
                 items = menu_details.items.all()
@@ -164,8 +164,10 @@ def OrderCreateView(request):
         j_order_rows = []
         j_order_rows = json.loads(order_data)
 
+        customer = request.user
+
         s = Shop.objects.get(id = int(shop_id))
-        o = Order(customer=1,shop=s,status='New',order_date=datetime.now(),total_price=j_order_rows["order_price"],total_weight=j_order_rows["order_weight"],lat_location=float(g[0]),long_location=float(g[1]))
+        o = Order(customer=customer.id,shop=s,status='New',order_date=datetime.now(),total_price=j_order_rows["order_price"],total_weight=j_order_rows["order_weight"],lat_location=float(g[0]),long_location=float(g[1]))
         o.save()
 
         for j in j_order_rows["order_rows"]:
