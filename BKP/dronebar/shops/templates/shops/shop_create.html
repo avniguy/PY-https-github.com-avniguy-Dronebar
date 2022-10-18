@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+<br><br>
+  <h1>Shop Create</h1>
+
+  <form class="shop_form" method="POST">
+    {% csrf_token %}
+
+    <input class="btn btn-primary" type="submit" value="Save"/>
+  </form>
+
+</div>
+
+{% endblock %}

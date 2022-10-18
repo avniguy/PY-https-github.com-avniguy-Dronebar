@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "stripped_base.html" %}
+{% block content %}
+
+<div class="container">
+<br><br>
+  <h1>Create User</h1>
+
+
+  <form class="register" method="POST" action="">
+    {% csrf_token %}
+
+    {% for field in form %}
+
+    <div class="form-group">
+        <label for="{{ field.name }}">{{field.label}}</label>
+        {% if field.name  == "password1" or  field.name  == "password2" %}
+          <input type="password" class="form-control" id="{{ field.name }}" name="{{ field.name }}" value='' enabled>
+        {% else %}
+          <input type="text" class="form-control" id="{{ field.name }}" name="{{ field.name }}" value='' enabled>
+        {% endif %}
+    </div>
+
+
+    {% endfor %}
+
+    <input class="btn btn-primary" type="submit" value="Save"/> &nbsp <a href="{% url 'accounts:login' %}">Login</a>
+    {{form.errors}}
+  </form>
+
+
+</div>
+
+
+{% endblock %}

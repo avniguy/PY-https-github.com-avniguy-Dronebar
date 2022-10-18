@@ -1,0 +1,71 @@
+  <!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+<br><br>
+  <h1>Service Site Update</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+
+ <div class="form-group">
+     <!-- {{ form.name.errors }} -->
+     <label>Name</label>
+     {{ form.name }}
+ </div>
+
+ <div class="form-group">
+     <label>Description</label>
+     {{ form.description }}
+ </div>
+
+ <div class="form-group">
+     {{ form.lat.errors }}
+     <label>Lat</label>
+     {{ form.lat }}
+ </div>
+
+ <div class="form-group">
+     {{ form.long.errors }}
+     <label>Long</label>
+     {{ form.long }}
+   </div>
+
+     <h5 id='long_err'></h5>
+     <button type="button" class="btn btn-info" onClick="getLocation()">Get Current Location</button>
+ </div><br>
+
+ <div class="form-group">
+     {{ form.radius.errors }}
+     <label>Radius</label>
+     {{ form.radius }}
+ </div>
+
+    <input class="btn btn-primary" type="submit" value="Save"/>
+    <a href="{% url 'shops:service_site_delete' servicesite.id %}"><button type="button" class="btn btn-warning">Delete</button></a>
+
+  </form>
+  <br><br><br>
+</div>
+
+<script>
+var lt = document.getElementById("id_lat");
+var ln = document.getElementById("id_long");
+var lnErr = document.getElementById("long_err");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    lnErr.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  lt.value= position.coords.latitude
+  ln.value= position.coords.longitude
+}
+</script>
+
+{% endblock %}

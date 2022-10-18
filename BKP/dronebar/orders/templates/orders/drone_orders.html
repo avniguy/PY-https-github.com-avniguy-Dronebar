@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <h1>Drone Orders</h1>
+
+    <form method="GET">
+      {% csrf_token %}
+
+      <div class="form-group">
+          <label for="drones">Drones:</label>
+          <select name="drones" id="drones" class="form-control" enabled>
+            <option value="0">--All--</option>
+            {% for drone in drones %}
+              <option value={{drone.id}}>{{drone.name}}</option>
+            {% endfor %}
+          </select>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Search</button>
+        <hr>
+      </div>
+    </form>
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+      <table class="table">
+        <thead>
+          <th>Order Number</th>
+          <th>Status</th>
+          <th>Order Date</th>
+          <th>Customer</th>
+          <th>Geolocation</th>
+          <!-- <th class='right_handed'> <a href="{% url 'drones:drone_create' %}">Create New</a></th> -->
+        </thead>
+
+        <tbody>
+        {% for o in orders %}
+          <tr class="default">
+            <td>{{ o.id }}</td>
+            <td>{{ o.status }}</td>
+            <td>{{ o.order_date }}</td>
+            <td>{{ o.customer }}</td>
+            <td>{{ o.lat_location }} , {{ o.long_location }}</td>
+
+            <td>
+              <a href="order/{{o.id}}/detail"><button type="button" class="btn btn-info">Details</button></a>
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </div>
+    </form>
+</div>
+
+
+{% endblock %}
