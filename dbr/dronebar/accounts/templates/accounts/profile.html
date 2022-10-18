@@ -24,15 +24,21 @@
     </div>
     <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" value={{user.password}}>
+        <input type="password" class="form-control" id="password" name="password" value={{user.password}} disabled>
     </div>
 
     <input class="btn btn-primary" type="submit" value="Save"/>
+
   </form>
 
-  {% for message in messages %}
-    <p id="message">{{message}}</p>
-  {% endfor %}
+    {% for message in messages %}
+      <p id="message">{{message}}</p>
+    {% endfor %}
+
+    {% if context_messages is not None %}
+    <span class="label label-success">{{context_messages}}</span>
+
+    {% endif  %}
 
 </div>
 

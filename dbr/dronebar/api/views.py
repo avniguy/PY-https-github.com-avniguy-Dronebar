@@ -2,14 +2,41 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.contrib.auth import authenticate,login,logout
 from .serializers import OrderSerializer
 from orders.models import Order, OrderRow
 from drones.models import Drone, DroneType
 from shops.models import Menu, MenuItem, Shop, ServiceSite
-from .serializers import ShopSerializer, OrderSerializer, MenuItemSerializer,ServiceSiteSerializer
+from .serializers import ShopSerializer, OrderSerializer, MenuItemSerializer,ServiceSiteSerializer,UserSerializer
+from django.contrib.auth.models import User
 import math
 
 # Create your views here.
+
+@api_view(['POST']) # WORKS OK
+def CreateUserApiView(request):
+    # user=User.objects.all()
+    serializer = UserSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response('OK')
+    else:
+        return Response('NOT-VALID')
+
+    return Response('NO-DATA')
+
+@api_view(['GET']) # WORKS OK
+def LoginUserApiView(request,username,password):
+    user = authenticate(request, username=username,password=password)
+
+    if user is not None:
+        login(request , user)
+        return Response('OK')
+    else:
+        return Response('NOT-VALID')
+
+    return Response('NO-DATA')
 
 @api_view(['GET']) # WORKS OK
 def GetShopByServiceSiteApiView(request, pk): # pk of the service_site (service_site_id)
@@ -78,7 +105,7 @@ def GetOrderStatusApiView(request, pk): # pk of the order (order_id)
 @api_view(['GET'])  # WORKS OK
 # example for url QRCODE: http://127.0.0.1:8000/api/api/scan_and_close_order_api/139
 # if my app current order is the same id then it will match
-def ScanAndCloseOrderApiView(request, pk, pk2): # pk of the order (order_id), pk2=clientOrder pk
+def ScanAndCloseOrderApiView(request, pk, pk2): # pk of the order (order_id), pk2=clientOrder - app
     if pk == pk2:
         order = Order.objects.get(id=pk)
         order.status = 'Delievered'
@@ -97,5 +124,5 @@ def ScanAndCloseOrderApiView(request, pk, pk2): # pk of the order (order_id), pk
     return Response('NO-DATA')
 
 @api_view(['GET'])
-def GetAnnouncementApiView(request, pk):
+def GetAnnouncementApiView(request, pk): #when droan arrives to the customer, it should announce
     pass

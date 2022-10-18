@@ -1,0 +1,7 @@
+
+
+1. api/views.py : use "if serializer.is_valid()"
+2. document code where needed
+3. use TRY-EXCEPT where needed
+4.settings.py: make password validations
+5. set bootstrap to all UpdateViews

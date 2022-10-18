@@ -16,11 +16,9 @@ from django.utils.decorators import method_decorator
 class ShopList(ListView):
     model = Shop
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ShopDetailView(DetailView):
     template_name = 'shops/shop_detail.html'
-    # form_class = ShopDetailForm
     model=Shop
     context_object_name = 'shop'
 
@@ -36,7 +34,6 @@ class ShopDetailView(DetailView):
         context['drones'] = drones
         return self.render_to_response(context)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ShopUpdateView(UpdateView):
     template_name = 'shops/shop_update.html'
@@ -72,7 +69,6 @@ class ShopUpdateView(UpdateView):
         # return reverse('shops:shop_list')
         # return reverse("shops:shop_detail" ,kwargs={"id":self.id})
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ShopDeleteView(DeleteView):
     template_name = 'shops/shop_delete.html'
@@ -84,7 +80,6 @@ class ShopDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('shops:shop_list')
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ShopCreateView(CreateView):
     model = Shop
@@ -97,13 +92,11 @@ class ShopCreateView(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ServiceSiteListView(ListView):
     model = ServiceSite
     template_name = 'service_sites/servicesite_list.html'
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ServiceSiteCreateView(CreateView):
     model = ServiceSite
@@ -116,7 +109,6 @@ class ServiceSiteCreateView(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ServiceSiteDetailView(DetailView):
     template_name = 'service_sites/servicesite_detail.html'
@@ -127,7 +119,6 @@ class ServiceSiteDetailView(DetailView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(ServiceSite,id=id_)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ServiceSiteUpdateView(UpdateView):
     template_name = 'service_sites/servicesite_update.html'
@@ -138,7 +129,6 @@ class ServiceSiteUpdateView(UpdateView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(ServiceSite,id=id_)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class ServiceSiteDeleteView(DeleteView):
     template_name = 'service_sites/servicesite_delete.html'
@@ -150,17 +140,14 @@ class ServiceSiteDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('shops:service_site_list')
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuList(ListView):
     template_name = 'menus/menu_list.html'
     model = Menu
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuDetailView(DetailView):
     template_name = 'menus/menu_detail.html'
-    # form_class = ShopDetailForm
     model=Menu
     context_object_name = 'menu'
 
@@ -168,7 +155,6 @@ class MenuDetailView(DetailView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Menu,id=id_)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuUpdateView(UpdateView):
     template_name = 'menus/menu_update.html'
@@ -180,7 +166,6 @@ class MenuUpdateView(UpdateView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(Menu,id=id_)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuDeleteView(DeleteView):
     template_name = 'menus/menu_delete.html'
@@ -192,7 +177,6 @@ class MenuDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('shops:menu_list')
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuCreateView(CreateView):
     model = Menu
@@ -205,7 +189,6 @@ class MenuCreateView(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuItemCreateView(CreateView):
     model = MenuItem
@@ -218,13 +201,11 @@ class MenuItemCreateView(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuItemListView(ListView):
     template_name = 'menus/menuitem_list.html'
     model = MenuItem
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
 class MenuItemUpdateView(UpdateView):
     template_name = 'menus/menuitem_update.html'
@@ -236,9 +217,8 @@ class MenuItemUpdateView(UpdateView):
         id_ = self.kwargs.get("id")
         return get_object_or_404(MenuItem,id=id_)
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
-class MenuItemDeleteView(DeleteView):
+class MenuItemDeleteView(DeleteView):  # view for deleting menu_item
     template_name = 'menus/menuitem_delete.html'
 
     def get_object(self):
@@ -248,11 +228,9 @@ class MenuItemDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('shops:menu_item_list')
 
-# @login_required(login_url='login')
 @method_decorator(login_required, name='dispatch')
-class MenuItemDetailView(DetailView):
+class MenuItemDetailView(DetailView):     # Shows the menu_item details
     template_name = 'menus/menuitem_detail.html'
-    # form_class = ShopDetailForm
     model=Menu
     context_object_name = 'menuitem'
 

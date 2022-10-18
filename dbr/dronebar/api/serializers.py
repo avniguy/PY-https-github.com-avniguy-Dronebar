@@ -2,7 +2,13 @@ from rest_framework import serializers
 from orders.models import Order, OrderRow
 from drones.models import Drone, DroneType
 from shops.models import Menu, MenuItem, Shop, ServiceSite
+from django.contrib.auth.models import User
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=['id','username','email','password']
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

@@ -8,7 +8,7 @@ from .forms import CreateUserForm
 
 # Create your views here.
 
-def RegisterView(request):
+def RegisterView(request): # create new account
     form = CreateUserForm()
 
     if request.method == 'POST':
@@ -45,16 +45,25 @@ def LogoutView(request):
     logout(request)
     return redirect('login')
 
-# @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 def ProfileView(request):
     context = {}
     user = request.user
 
+    # try:
     if user is not None:
         context = {"user":user}
     else:
         messages.info(request,"username or password is not correct")
         return render(request,'accounts/login.html',context)
+
+    if request.method == 'POST':
+        user.username = request.POST.get('username','')
+        user.email = request.POST.get('email','')
+        user.save()
+        context["context_messages"] = "Your profile is updated"
+    # except BaseException as e:
+    #     context["error"]=str(e)
+    #     return render(request,'error.html',context)
 
     return render(request,'accounts/profile.html',context)

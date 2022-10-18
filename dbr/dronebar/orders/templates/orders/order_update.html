@@ -6,9 +6,12 @@
 <br><br>
   <a href="{% url 'orders:order_list' %}" style="align:right; float: right;">Order List</a>
   <h1>Order Update</h1>
+  <h3>Order Id: {{order.id}} , Order Date: {{order.order_date}}, Customer: {{order.customer}}</h3>
 
   <form method="POST">
     {% csrf_token %}
+
+    {{form.as_p}}
 
 
     <input class="btn btn-primary" type="submit" value="Save"/>
