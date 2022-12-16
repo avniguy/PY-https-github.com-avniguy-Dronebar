@@ -77,7 +77,7 @@ def GetServiceSitesLocationsApiView(request,lat2,lon2):
         # return degrees * math.pi / 180
 
 @api_view(['GET']) # WORKS OK
-def GetShopMenuApiView(request, pk): # pk of the shop (shop_id)
+def GetShopMenuApiView(request, pk): # pk of the shop (shop_id) - returns the items of the specific shop menu only
     menu_id = Shop.objects.get(id=pk).menu_id
     menu = Menu.objects.get(id=menu_id)
     items = menu.items
@@ -85,7 +85,7 @@ def GetShopMenuApiView(request, pk): # pk of the shop (shop_id)
     return Response(serializer.data)
 
 @api_view(['POST']) # WORKS OK
-def CreateOrderApiView(request):
+def CreateOrderApiView(request): # gets a JSON of the current order and saves it to db
     serializer = OrderSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -97,15 +97,15 @@ def CreateOrderApiView(request):
     return Response('NO-DATA')
 
 @api_view(['GET']) # WORKS OK
-def GetOrderStatusApiView(request, pk): # pk of the order (order_id)
+def GetOrderStatusApiView(request, pk): # pk of the order (order_id) - Returns the whole order details
     order = Order.objects.get(id=pk)
     serializer = OrderSerializer(order,many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])  # WORKS OK
+def ScanAndCloseOrderApiView(request, pk, pk2): # pk of the order (order_id), pk2=clientOrder - app >> if the order id suits the client app orderid then ok
 # example for url QRCODE: http://127.0.0.1:8000/api/api/scan_and_close_order_api/139
 # if my app current order is the same id then it will match
-def ScanAndCloseOrderApiView(request, pk, pk2): # pk of the order (order_id), pk2=clientOrder - app
     if pk == pk2:
         order = Order.objects.get(id=pk)
         order.status = 'Delievered'

@@ -16,7 +16,7 @@ def RegisterView(request): # create new account
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
-            messages.success(request,'account created for user' + user)
+            messages.success(request,'account created for user: ' + user)
             return redirect('login')
 
     context = {'form':form}
@@ -32,10 +32,10 @@ def LoginView(request):
 
         user = authenticate(request, username=username,password=password)
 
-        if user is not None:
+        if user is not None: # username and password are valid
             login(request , user)
             return redirect('index')
-        else:
+        else:     # username and password are NOT valid
             messages.info(request,"username or password is not correct")
             return render(request,'accounts/login.html',context)
 
@@ -57,7 +57,7 @@ def ProfileView(request):
         messages.info(request,"username or password is not correct")
         return render(request,'accounts/login.html',context)
 
-    if request.method == 'POST':
+    if request.method == 'POST': 
         user.username = request.POST.get('username','')
         user.email = request.POST.get('email','')
         user.save()
